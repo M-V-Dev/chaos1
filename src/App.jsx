@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { usePumpfunTokenTrades } from "./usePumpfunTokenTrades";
 
-const TOKEN_KEY = "HEXYuc5RumPYejirQeL6Nb4cAqLXPVh6qVAsy9JNpump";
+const TOKEN_KEY = "HmmifedbYo6qeQRA9CbhR1mvWcRFKu5YHWvpTuN6pump";
 
 // 3 random images for buys & sells
 const buyImages = ["/images/buy1.png", "/images/buy2.png", "/images/buy3.png"];
