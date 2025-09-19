@@ -6,7 +6,7 @@ export function usePumpfunTokenTrades(tokenKey) {
 
   useEffect(() => {
     // ✅ Read API key from Vite/Vercel env variable
-    const apiKey = import.meta.env.PUMPFUN_KEY;
+    const apiKey = import.meta.env.VITE_PUMPFUN_API_KEY;
 
     if (!apiKey) {
       console.error("❌ Missing VITE_PUMPFUN_API_KEY environment variable");
