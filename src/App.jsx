@@ -92,7 +92,7 @@ export default function App() {
     >
       {/* Floating Twitter X logo */}
       <a
-        href="https://twitter.com"
+        href="https://x.com/i/communities/1968947003166969909"
         target="_blank"
         rel="noopener noreferrer"
         className="floating-x"
