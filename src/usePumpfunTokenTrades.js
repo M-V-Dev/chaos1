@@ -5,28 +5,45 @@ export function usePumpfunTokenTrades(tokenKey) {
   const [trades, setTrades] = useState([]);
 
   useEffect(() => {
-    const ws = new WebSocket("wss://pumpportal.fun/api/data?api-key=64rnmca48tbppuhpewnk2njuarrp4dbbcdvppk24anh4urtted4qedu871x6rmj5c9w5mrke8n7qcy3fddn38n3275j30p2h8n368mv5e5346c23dh66ru3k8x73edhfb9vq6j3584ykuax952ujab8t74nahcwvn4rkb909wrn8pam8gnpwcvh8d858tkm8nvpwc37610kuf8");
+    // ✅ Read API key from Vite/Vercel env variable
+    const apiKey = import.meta.env.PUMPFUN_KEY;
+
+    if (!apiKey) {
+      console.error("❌ Missing VITE_PUMPFUN_API_KEY environment variable");
+      return;
+    }
+
+    const ws = new WebSocket(
+      `wss://pumpportal.fun/api/data?api-key=${apiKey}`
+    );
 
     ws.onopen = () => {
-      ws.send(JSON.stringify({
-        method: "subscribeTokenTrade",
-        keys: [tokenKey]
-      }));
+      console.log("✅ WebSocket connected");
+      ws.send(
+        JSON.stringify({
+          method: "subscribeTokenTrade",
+          keys: [tokenKey],
+        })
+      );
     };
 
     ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.txType) {
-        setTrades(prev => [data, ...prev]);
+      try {
+        const data = JSON.parse(event.data);
+        if (data.txType) {
+          setTrades((prev) => [data, ...prev]);
+        }
+      } catch (err) {
+        console.error("❌ Failed to parse WebSocket message:", err);
       }
     };
 
     ws.onerror = (err) => {
-      console.error("WebSocket error:", err);
+      console.error("❌ WebSocket error:", err);
     };
 
     ws.onclose = () => {
-      console.log("WebSocket closed");
+      console.log("⚠️ WebSocket closed");
     };
 
     return () => {
